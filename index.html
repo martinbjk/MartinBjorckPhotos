@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body { font-family: 'Jost', sans-serif; font-weight: 300; background: #0b1a27; color: #e0eef7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     :root {
       --deep: #07121c; --darker: #0b1a27; --dark: #0e1f2e; --mid: #132d42;
@@ -33,7 +33,7 @@
     .nav-logo {
       font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400;
       letter-spacing: .1em; color: var(--white); text-decoration: none;
-      margin-right: auto; /* pushes everything else to the right */
+      margin-right: auto;
     }
     .nav-links { display: flex; gap: 1.5rem; list-style: none; margin-right: 1.5rem; }
     .nav-links a { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .25s; font-weight: 400; }
@@ -97,7 +97,7 @@
     .hero-bg { position: absolute; inset: 0; z-index: 1; background-image: url('images/wave.jpg'); background-size: cover; background-position: center 30%; transform: scaleX(-1); }
     .hero-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.72) 30%, rgba(7,18,28,0.30) 60%, rgba(7,18,28,0.05) 100%); }
     .hero-bottom-fade { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; height: 120px; background: linear-gradient(to bottom, transparent, var(--darker)); pointer-events: none; }
-    .hero-content { position: relative; z-index: 10; padding: 4rem 3rem; max-width: 560px; }
+    .hero-content { position: relative; z-index: 10; padding: 4rem 3rem 4rem 3rem; max-width: 560px; }
     .hero-eyebrow { font-size: .65rem; letter-spacing: .45em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1.4rem; opacity: 0; animation: fadeUp .9s ease .2s forwards; }
     h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(3.5rem, 9vw, 7rem); line-height: .88; color: var(--white); text-shadow: 0 2px 30px rgba(0,0,0,.6); opacity: 0; animation: fadeUp .9s ease .4s forwards; }
     h1 em { font-style: italic; color: var(--accent2); display: block; }
@@ -316,6 +316,7 @@
   </div>
 
   <nav>
+    <a class="nav-logo" href="#">Martin Björck</a>
     <a class="nav-logo" href="#">Martin Björck</a>
     <ul class="nav-links">
       <li><a href="#galleri" data-i18n="nav_gallery">Galleri</a></li>
