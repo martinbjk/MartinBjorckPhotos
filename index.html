@@ -19,47 +19,71 @@
       --accent: #4fc3f7; --accent2: #81d4fa; --white: #f0f8ff;
       --muted: #a8d4ea; --subtle: #5ba3c9; --r: 3px;
       --ease: cubic-bezier(.4,0,.2,1);
-      --paypal: #003087; --paypal2: #009cde;
     }
 
     /* ══ NAV ══ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 90;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2.5rem;
+      padding: 1rem 2rem;
       background: rgba(7,18,28,0.95);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(79,195,247,.15);
+      gap: 1rem;
     }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; letter-spacing: .1em; color: var(--white); text-decoration: none; }
-    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { font-size: .78rem; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .25s; font-weight: 400; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; letter-spacing: .1em; color: var(--white); text-decoration: none; flex-shrink: 0; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .25s; font-weight: 400; }
     .nav-links a:hover { color: var(--accent); }
 
-    /* Språkväljare */
-    .lang-switcher { display: flex; gap: .3rem; align-items: center; }
+    /* ── SPRÅKVÄLJARE — flagga med tooltip ── */
+    .lang-switcher { display: flex; gap: .3rem; align-items: center; flex-shrink: 0; }
     .lang-btn {
-      font-family: 'Jost', sans-serif; font-size: .6rem; font-weight: 500;
-      letter-spacing: .12em; padding: .3rem .55rem;
-      border: 1px solid rgba(79,195,247,.2); background: transparent;
-      color: var(--subtle); cursor: pointer; border-radius: 3px; transition: all .2s;
-      text-transform: uppercase;
+      font-family: 'Jost', sans-serif;
+      font-size: .75rem; font-weight: 600;
+      padding: .4rem .55rem;
+      border: 1.5px solid rgba(79,195,247,.3);
+      background: transparent; color: var(--muted);
+      cursor: pointer; border-radius: 4px; transition: all .2s;
+      display: flex; align-items: center; gap: .28rem;
+      flex-shrink: 0; white-space: nowrap;
+      position: relative;
     }
-    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .lang-btn.active { background: var(--accent); border-color: var(--accent); color: var(--deep); }
+    .lang-btn .flag { font-size: 1.05rem; line-height: 1; }
+    .lang-btn .lname {
+      font-size: .6rem; letter-spacing: .06em; text-transform: uppercase;
+    }
+    /* Tooltip som visas vid hover */
+    .lang-btn::after {
+      content: attr(data-lang-full);
+      position: absolute; top: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%);
+      background: rgba(7,18,28,.96); color: var(--muted);
+      font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .3rem .7rem; border-radius: 3px;
+      border: 1px solid rgba(79,195,247,.2);
+      white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity .2s; z-index: 200;
+    }
+    .lang-btn:hover::after { opacity: 1; }
+    .lang-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,195,247,.08); }
+    .lang-btn.active { background: var(--accent); border-color: var(--accent); color: var(--deep); font-weight: 700; }
+    /* Dölj textnamn alltid i nav — bara flagga — tooltip ger info */
+    .lang-btn .lname { display: none; }
 
-    .nav-burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav-burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; flex-shrink: 0; }
     .nav-burger span { display: block; width: 26px; height: 1.5px; background: var(--muted); transition: all .3s; }
     .nav-burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .nav-burger.open span:nth-child(2) { opacity: 0; }
     .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-    @media(max-width:780px) {
-      nav { padding: 1rem 1.5rem; }
+    @media(max-width:680px) {
+      nav { padding: .85rem 1.2rem; }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
+      .lang-btn .lname { display: none; }
+      .lang-btn { padding: .35rem .45rem; font-size: .65rem; }
       .lang-switcher { gap: .2rem; }
-      .lang-btn { font-size: .55rem; padding: .25rem .45rem; }
     }
 
     /* ══ MOBILE MENU ══ */
@@ -67,8 +91,11 @@
     .mobile-menu.open { display: flex; }
     .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--white); text-decoration: none; transition: color .2s; }
     .mobile-menu a:hover { color: var(--accent); }
-    .mobile-menu .lang-switcher { margin-top: 1rem; gap: .5rem; }
-    .mobile-menu .lang-btn { font-size: .7rem; padding: .4rem .8rem; }
+    .mobile-menu .lang-switcher { margin-top: 1.5rem; gap: .6rem; }
+    /* I mobilmenyn: visa flagga + namn */
+    .mobile-menu .lang-btn { font-size: .82rem; padding: .65rem 1.2rem; }
+    .mobile-menu .lang-btn .lname { display: inline !important; font-size: .72rem; }
+    .mobile-menu .lang-btn::after { display: none; }
 
     /* ══ HERO ══ */
     header { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding-top: 60px; }
@@ -86,6 +113,64 @@
     .hero-stat:last-child { border-right: none; }
     .hero-stat .num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--accent); line-height: 1; text-shadow: 0 2px 16px rgba(0,0,0,.5); }
     .hero-stat .lbl { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: .28rem; }
+
+    /* ══ PRISBAND ══ */
+    .price-band {
+      background: rgba(10,24,36,0.98);
+      border-top: 1px solid rgba(79,195,247,.18);
+      border-bottom: 1px solid rgba(79,195,247,.18);
+      padding: 2.2rem 2rem 1.6rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .price-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 3.5rem;
+      border-right: 1px solid rgba(79,195,247,.12);
+    }
+    .price-item:last-child { border-right: none; }
+    .price-method {
+      font-size: .62rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .5rem;
+      font-weight: 500;
+    }
+    .price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+    }
+    .price-note {
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-top: .4rem;
+    }
+    .price-info {
+      font-size: .8rem;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 1.2rem;
+      width: 100%;
+      letter-spacing: .06em;
+      line-height: 1.8;
+    }
+    .price-info strong { color: var(--accent); font-weight: 500; }
+    @media(max-width:600px) {
+      .price-band { padding: 1.8rem 1rem 1.4rem; }
+      .price-item { border-right: none; border-bottom: 1px solid rgba(79,195,247,.1); padding: 1rem 2rem; width: 100%; align-items: flex-start; }
+      .price-item:last-child { border-bottom: none; }
+    }
 
     /* ══ SECTION HEADER ══ */
     .section-header { text-align: center; padding: 4rem 2rem 2rem; }
@@ -141,7 +226,7 @@
     /* ══ PAYMENT MODAL ══ */
     .pay-backdrop { position: fixed; inset: 0; z-index: 400; background: rgba(7,18,28,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
     .pay-backdrop.open { opacity: 1; pointer-events: all; }
-    .pay-modal { background: var(--dark); max-width: 500px; width: 94%; padding: 2.5rem; border-radius: 6px; position: relative; text-align: center; transform: translateY(18px); transition: transform .3s; box-shadow: 0 40px 100px rgba(0,0,0,.6); border: 1px solid rgba(79,195,247,.15); }
+    .pay-modal { background: var(--dark); max-width: 500px; width: 94%; padding: 2.5rem; border-radius: 6px; position: relative; text-align: center; transform: translateY(18px); transition: transform .3s; box-shadow: 0 40px 100px rgba(0,0,0,.6); border: 1px solid rgba(79,195,247,.15); max-height: 90vh; overflow-y: auto; }
     .pay-backdrop.open .pay-modal { transform: translateY(0); }
     .pay-x { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: var(--sky); line-height: 1; transition: color .2s; }
     .pay-x:hover { color: var(--accent); }
@@ -149,11 +234,9 @@
     .pay-badge span { font-size: .62rem; letter-spacing: .25em; text-transform: uppercase; color: var(--accent); }
     .pay-modal h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.9rem; color: var(--white); margin-bottom: .4rem; }
     .pay-image-title { font-style: italic; color: var(--accent); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; display: block; margin-bottom: 1.2rem; }
-    .pay-divider { display: flex; gap: 1rem; margin: 1.4rem 0; }
+    .pay-divider { display: flex; gap: 1rem; margin: 1rem 0; }
     .pay-divider::before, .pay-divider::after { content: ''; flex: 1; height: 1px; background: rgba(79,195,247,.15); align-self: center; }
     .pay-divider span { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--subtle); white-space: nowrap; }
-
-    /* Swish section */
     .pay-section { background: rgba(79,195,247,.05); border: 1px solid rgba(79,195,247,.15); border-radius: 4px; padding: 1.4rem; margin-bottom: 1rem; text-align: left; }
     .pay-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
     .pay-section-label { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
@@ -162,8 +245,6 @@
     .swish-num-inline { display: inline-block; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--accent); background: rgba(79,195,247,.08); padding: .3rem .8rem; border-radius: 3px; cursor: pointer; border: 1px solid rgba(79,195,247,.2); transition: background .2s; margin-top: .5rem; }
     .swish-num-inline:hover { background: rgba(79,195,247,.16); }
     .copy-hint-sm { font-size: .56rem; letter-spacing: .12em; color: var(--subtle); text-transform: uppercase; margin-top: .3rem; display: block; }
-
-    /* PayPal section */
     .paypal-section { background: rgba(0,48,135,.15); border: 1px solid rgba(0,156,222,.2); border-radius: 4px; padding: 1.4rem; margin-bottom: 1rem; text-align: left; }
     .paypal-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
     .paypal-label { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: #009cde; font-weight: 500; }
@@ -171,10 +252,9 @@
     .paypal-section p { font-size: .8rem; color: var(--muted); line-height: 1.6; margin-bottom: .8rem; }
     .paypal-btn { display: inline-flex; align-items: center; gap: .6rem; background: #ffc439; color: #003087; border: none; padding: .7rem 1.8rem; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .05em; cursor: pointer; transition: background .2s; text-decoration: none; }
     .paypal-btn:hover { background: #f0b429; }
-    .paypal-btn svg { width: 18px; height: 18px; }
-
-    .pay-note { font-size: .72rem; color: var(--subtle); line-height: 1.7; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(79,195,247,.1); }
-    .pay-note strong { color: var(--muted); }
+    .pay-note { font-size: .78rem; color: var(--muted); line-height: 1.8; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(79,195,247,.1); text-align: left; }
+    .pay-note strong { color: var(--white); }
+    .pay-note a { color: var(--accent); }
 
     /* ══ ABOUT ══ */
     #om { max-width: 960px; margin: 0 auto; padding: 4rem 2rem 6rem; display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center; }
@@ -214,11 +294,11 @@
     <a href="#galleri" onclick="closeMobile()" data-i18n="nav_gallery">Galleri</a>
     <a href="#om"      onclick="closeMobile()" data-i18n="nav_about">Om mig</a>
     <a href="#kontakt" onclick="closeMobile()" data-i18n="nav_contact">Kontakt</a>
-    <div class="lang-switcher" style="margin-top:1rem">
-      <button class="lang-btn active" onclick="setLang('sv');closeMobile()">SV</button>
-      <button class="lang-btn" onclick="setLang('en');closeMobile()">EN</button>
-      <button class="lang-btn" onclick="setLang('de');closeMobile()">DE</button>
-      <button class="lang-btn" onclick="setLang('fr');closeMobile()">FR</button>
+    <div class="lang-switcher" style="margin-top:1.5rem">
+      <button class="lang-btn active" onclick="setLang('sv');closeMobile()" data-lang-full="Svenska"><span class="flag">🇸🇪</span><span class="lname">Svenska</span></button>
+      <button class="lang-btn" onclick="setLang('en');closeMobile()" data-lang-full="English"><span class="flag">🇬🇧</span><span class="lname">English</span></button>
+      <button class="lang-btn" onclick="setLang('de');closeMobile()" data-lang-full="Deutsch"><span class="flag">🇩🇪</span><span class="lname">Deutsch</span></button>
+      <button class="lang-btn" onclick="setLang('fr');closeMobile()" data-lang-full="Français"><span class="flag">🇫🇷</span><span class="lname">Français</span></button>
     </div>
   </div>
 
@@ -231,10 +311,10 @@
         <li><a href="#kontakt" data-i18n="nav_contact">Kontakt</a></li>
       </ul>
       <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('sv')">SV</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('de')">DE</button>
-        <button class="lang-btn" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn active" onclick="setLang('sv')" data-lang-full="Svenska"><span class="flag">🇸🇪</span></button>
+        <button class="lang-btn" onclick="setLang('en')" data-lang-full="English"><span class="flag">🇬🇧</span></button>
+        <button class="lang-btn" onclick="setLang('de')" data-lang-full="Deutsch"><span class="flag">🇩🇪</span></button>
+        <button class="lang-btn" onclick="setLang('fr')" data-lang-full="Français"><span class="flag">🇫🇷</span></button>
       </div>
     </div>
     <button class="nav-burger" id="burger" aria-label="Meny" onclick="toggleMobile()">
@@ -306,7 +386,27 @@
     </div>
   </section>
 
-  <footer id="kontakt">
+  <!-- ══ PRISBAND — efter Om mig ══ -->
+  <div class="price-band fade-in">
+    <div class="price-item">
+      <span class="price-method">Swish — Sverige</span>
+      <span class="price-amount">200 kr</span>
+      <span class="price-note">per digital bild</span>
+    </div>
+    <div class="price-item">
+      <span class="price-method">PayPal — International</span>
+      <span class="price-amount">€20 EUR</span>
+      <span class="price-note">per digital image</span>
+    </div>
+    <div class="price-item">
+      <span class="price-method" data-i18n="stat_delivery">Leverans</span>
+      <span class="price-amount">24h</span>
+      <span class="price-note" data-i18n="price_delivery_note">fullupplöst fil via mail</span>
+    </div>
+    <p class="price-info" data-i18n="price_info">
+      Klicka på valfri bild → välj betalning → skicka bekräftelse till <strong>martinbjk@gmail.com</strong>
+    </p>
+  </div>
     <div class="footer-logo">Martin Björck</div>
     <nav class="footer-nav" aria-label="Footer">
       <a href="#galleri" data-i18n="nav_gallery">Galleri</a>
@@ -319,7 +419,6 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
     <button class="lb-close" id="lbClose">×</button>
     <button class="lb-nav lb-prev" id="lbPrev">&#8592;</button>
@@ -332,10 +431,9 @@
         <span id="lbCat"></span>
       </div>
     </div>
-    <button class="lb-buy" id="lbBuy" data-i18n="lb_buy">Köp denna bild via Swish / PayPal</button>
+    <button class="lb-buy" id="lbBuy" data-i18n="lb_buy">Köp denna bild</button>
   </div>
 
-  <!-- PAYMENT MODAL -->
   <div class="pay-backdrop" id="payBackdrop">
     <div class="pay-modal" role="dialog" aria-modal="true">
       <button class="pay-x" id="payX">×</button>
@@ -343,8 +441,7 @@
       <h2 data-i18n="pay_title">Köp bild</h2>
       <span class="pay-image-title" id="payImageTitle">—</span>
 
-      <!-- SWISH -->
-      <div class="pay-section" id="swishSection">
+      <div class="pay-section">
         <div class="pay-section-head">
           <span class="pay-section-label">Swish — Sverige</span>
           <span class="pay-section-price">200 kr</span>
@@ -356,16 +453,19 @@
 
       <div class="pay-divider"><span data-i18n="pay_or">eller</span></div>
 
-      <!-- PAYPAL -->
       <div class="paypal-section">
         <div class="paypal-section-head">
           <span class="paypal-label">PayPal — International</span>
           <span class="paypal-price">€20 EUR</span>
         </div>
-        <p data-i18n="paypal_desc">Pay securely with PayPal. After payment, send your receipt to the email below.</p>
-        <!-- ══ BYTA: ersätt href med din PayPal.me-länk, t.ex. https://paypal.me/martinbjk/20EUR ══ -->
-        <a class="paypal-btn" id="paypalBtn" href="https://paypal.me/DITTNAMN/20EUR" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <p data-i18n="paypal_desc">Betala säkert med PayPal. Skicka kvittot till mailadressen nedan.</p>
+        <!-- ══════════════════════════════════════════════════════
+             BYTA: ersätt href nedan med din PayPal.me-länk
+             Exempel: https://paypal.me/martinbjk/20
+             Se instruktioner längst ner i filen
+        ══════════════════════════════════════════════════════ -->
+        <a class="paypal-btn" id="paypalBtn" href="https://paypal.me/DITTNAMN/20" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.5 21H4.5L6 9H9.75C11.5 9 13.5 9.5 13.5 12C13.5 15 11 15.75 9 15.75H7.5L7.5 21Z" fill="#003087"/>
             <path d="M9.75 9H13.5C15.25 9 17.25 9.5 17.25 12C17.25 15 14.75 15.75 12.75 15.75H11.25" fill="#009cde"/>
           </svg>
@@ -374,8 +474,8 @@
       </div>
 
       <p class="pay-note" data-i18n="pay_note">
-        <strong data-i18n="pay_note_strong">Efter betalning:</strong>
-        Skicka ett mail till <a href="mailto:martinbjk@gmail.com" style="color:var(--accent)">martinbjk@gmail.com</a>
+        <strong>Efter betalning:</strong> Skicka ett mail till
+        <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a>
         med bildens titel och din betalningsbekräftelse — du får en fullupplöst fil inom 24 timmar.
       </p>
     </div>
@@ -383,158 +483,15 @@
 
   <script>
   /* ══════════════════════════════════════
-     KONFIGURATION
+     KONFIGURATION — ändra dessa värden
   ══════════════════════════════════════ */
-  const SWISH_NUMBER   = '0708977190';
-  const CONTACT_EMAIL  = 'martinbjk@gmail.com';
-  const PRICE_SEK      = '200 kr';
-  const PRICE_EUR      = '€20 EUR';
-  // ── Byt ut mot din PayPal.me-länk ──
-  const PAYPAL_BASE    = 'https://paypal.me/DITTNAMN/20EUR';
-
-  /* ══════════════════════════════════════
-     ÖVERSÄTTNINGAR
-  ══════════════════════════════════════ */
-  const i18n = {
-    sv: {
-      nav_gallery:'Galleri', nav_about:'Om mig', nav_contact:'Kontakt',
-      hero_eyebrow:'Fotografi &amp; konst — Sverige',
-      hero_tagline:'Bilder som stannar kvar',
-      stat_sweden:'Sverige', stat_intl:'Internationellt', stat_delivery:'Leverans',
-      gallery_tag:'Samling · fotografier',
-      gallery_title_html:'Mina <em>bästa</em> bilder',
-      readme_text:'Lägg till bilder i <code>images/</code>-mappen och uppdatera arrayen <code>MY_IMAGES</code> i scriptet. Ta bort denna ruta när du är klar.',
-      filter_all:'Alla', filter_nature:'Natur', filter_city:'Stad',
-      filter_portrait:'Porträtt', filter_travel:'Resor', filter_abstract:'Abstrakt',
-      load_more:'Visa fler bilder',
-      about_title_html:'Om <em>mig</em>',
-      about_p1:'Jag är Martin Björck, fotograf baserad i Sverige.',
-      about_p2:'Varje bild i galleriet är ett minne, en känsla eller en berättelse. Väljer du att äga en av dem tar du med dig ett stycke av den världen hem.',
-      about_p3:'Betalning sker enkelt via <strong>Swish</strong> (Sverige) eller <strong>PayPal</strong> (internationellt). Klicka på valfri bild — du får en fullupplöst fil inom 24 timmar.',
-      buy_btn:'Köp via Swish / PayPal',
-      lb_buy:'Köp denna bild',
-      pay_badge:'Säker betalning',
-      pay_title:'Köp bild',
-      swish_desc:'Skicka 200 kr till numret nedan. Skriv bildens titel som meddelande.',
-      copy_hint:'Klicka för att kopiera',
-      pay_or:'eller',
-      paypal_desc:'Betala säkert med PayPal. Skicka kvittot till mailadressen nedan.',
-      paypal_btn:'Betala med PayPal',
-      pay_note:'<strong>Efter betalning:</strong> Skicka ett mail till <a href="mailto:martinbjk@gmail.com" style="color:var(--accent)">martinbjk@gmail.com</a> med bildens titel och betalningsbekräftelse — du får en fullupplöst fil inom 24 timmar.',
-      pay_note_strong:'',
-      toast_copied:'Swish-nummer kopierat! ✓',
-      toast_protected:'© Martin Björck — Bilderna är skyddade',
-    },
-    en: {
-      nav_gallery:'Gallery', nav_about:'About', nav_contact:'Contact',
-      hero_eyebrow:'Photography &amp; Art — Sweden',
-      hero_tagline:'Images that stay with you',
-      stat_sweden:'Sweden', stat_intl:'International', stat_delivery:'Delivery',
-      gallery_tag:'Collection · photographs',
-      gallery_title_html:'My <em>finest</em> images',
-      readme_text:'Add photos to the <code>images/</code> folder and update the <code>MY_IMAGES</code> array in the script. Remove this box when done.',
-      filter_all:'All', filter_nature:'Nature', filter_city:'City',
-      filter_portrait:'Portrait', filter_travel:'Travel', filter_abstract:'Abstract',
-      load_more:'Load more images',
-      about_title_html:'About <em>me</em>',
-      about_p1:'I am Martin Björck, a photographer based in Sweden.',
-      about_p2:'Every image in the gallery is a memory, a feeling, or a story. If you choose to own one, you take a piece of that world home with you.',
-      about_p3:'Payment is easy via <strong>Swish</strong> (Sweden) or <strong>PayPal</strong> (international). Click any image — you will receive a full-resolution file within 24 hours.',
-      buy_btn:'Buy via Swish / PayPal',
-      lb_buy:'Purchase this image',
-      pay_badge:'Secure payment',
-      pay_title:'Purchase image',
-      swish_desc:'Send 200 SEK to the number below. Write the image title as message. (Sweden only)',
-      copy_hint:'Click to copy',
-      pay_or:'or',
-      paypal_desc:'Pay securely with PayPal. Send your receipt to the email address below.',
-      paypal_btn:'Pay with PayPal',
-      pay_note:'<strong>After payment:</strong> Send an email to <a href="mailto:martinbjk@gmail.com" style="color:var(--accent)">martinbjk@gmail.com</a> with the image title and your payment confirmation — you will receive a full-resolution file within 24 hours.',
-      pay_note_strong:'',
-      toast_copied:'Swish number copied! ✓',
-      toast_protected:'© Martin Björck — Images are protected',
-    },
-    de: {
-      nav_gallery:'Galerie', nav_about:'Über mich', nav_contact:'Kontakt',
-      hero_eyebrow:'Fotografie &amp; Kunst — Schweden',
-      hero_tagline:'Bilder, die bleiben',
-      stat_sweden:'Schweden', stat_intl:'International', stat_delivery:'Lieferung',
-      gallery_tag:'Kollektion · Fotografien',
-      gallery_title_html:'Meine <em>besten</em> Bilder',
-      readme_text:'Füge Fotos zum Ordner <code>images/</code> hinzu und aktualisiere das Array <code>MY_IMAGES</code> im Skript. Entferne dieses Feld wenn fertig.',
-      filter_all:'Alle', filter_nature:'Natur', filter_city:'Stadt',
-      filter_portrait:'Porträt', filter_travel:'Reisen', filter_abstract:'Abstrakt',
-      load_more:'Mehr Bilder laden',
-      about_title_html:'Über <em>mich</em>',
-      about_p1:'Ich bin Martin Björck, Fotograf aus Schweden.',
-      about_p2:'Jedes Bild in der Galerie ist eine Erinnerung, ein Gefühl oder eine Geschichte. Wenn Sie sich für eines entscheiden, nehmen Sie ein Stück dieser Welt mit nach Hause.',
-      about_p3:'Zahlung einfach per <strong>Swish</strong> (Schweden) oder <strong>PayPal</strong> (international). Klicken Sie auf ein Bild — Sie erhalten die Datei in voller Auflösung innerhalb von 24 Stunden.',
-      buy_btn:'Kaufen via Swish / PayPal',
-      lb_buy:'Dieses Bild kaufen',
-      pay_badge:'Sichere Zahlung',
-      pay_title:'Bild kaufen',
-      swish_desc:'Senden Sie 200 SEK an die unten stehende Nummer. Schreiben Sie den Bildtitel als Nachricht. (Nur Schweden)',
-      copy_hint:'Zum Kopieren klicken',
-      pay_or:'oder',
-      paypal_desc:'Bezahlen Sie sicher mit PayPal. Senden Sie die Quittung an die E-Mail-Adresse unten.',
-      paypal_btn:'Mit PayPal bezahlen',
-      pay_note:'<strong>Nach der Zahlung:</strong> Senden Sie eine E-Mail an <a href="mailto:martinbjk@gmail.com" style="color:var(--accent)">martinbjk@gmail.com</a> mit dem Bildtitel und Ihrer Zahlungsbestätigung — Sie erhalten innerhalb von 24 Stunden eine hochauflösende Datei.',
-      pay_note_strong:'',
-      toast_copied:'Swish-Nummer kopiert! ✓',
-      toast_protected:'© Martin Björck — Bilder sind geschützt',
-    },
-    fr: {
-      nav_gallery:'Galerie', nav_about:'À propos', nav_contact:'Contact',
-      hero_eyebrow:'Photographie &amp; Art — Suède',
-      hero_tagline:'Des images qui restent',
-      stat_sweden:'Suède', stat_intl:'International', stat_delivery:'Livraison',
-      gallery_tag:'Collection · photographies',
-      gallery_title_html:'Mes <em>meilleures</em> images',
-      readme_text:'Ajoutez des photos dans le dossier <code>images/</code> et mettez à jour le tableau <code>MY_IMAGES</code> dans le script. Supprimez cette boîte une fois terminé.',
-      filter_all:'Tout', filter_nature:'Nature', filter_city:'Ville',
-      filter_portrait:'Portrait', filter_travel:'Voyages', filter_abstract:'Abstrait',
-      load_more:'Charger plus',
-      about_title_html:'À propos de <em>moi</em>',
-      about_p1:'Je suis Martin Björck, photographe basé en Suède.',
-      about_p2:'Chaque image de la galerie est un souvenir, une émotion ou une histoire. Si vous choisissez d\'en posséder une, vous emportez un morceau de ce monde avec vous.',
-      about_p3:'Paiement simple par <strong>Swish</strong> (Suède) ou <strong>PayPal</strong> (international). Cliquez sur une image — vous recevrez un fichier haute résolution en 24 heures.',
-      buy_btn:'Acheter via Swish / PayPal',
-      lb_buy:'Acheter cette image',
-      pay_badge:'Paiement sécurisé',
-      pay_title:'Acheter une image',
-      swish_desc:'Envoyez 200 SEK au numéro ci-dessous. Écrivez le titre de l\'image en message. (Suède uniquement)',
-      copy_hint:'Cliquer pour copier',
-      pay_or:'ou',
-      paypal_desc:'Payez en toute sécurité avec PayPal. Envoyez votre reçu à l\'adresse e-mail ci-dessous.',
-      paypal_btn:'Payer avec PayPal',
-      pay_note:'<strong>Après paiement :</strong> Envoyez un e-mail à <a href="mailto:martinbjk@gmail.com" style="color:var(--accent)">martinbjk@gmail.com</a> avec le titre de l\'image et votre confirmation de paiement — vous recevrez un fichier haute résolution en 24 heures.',
-      pay_note_strong:'',
-      toast_copied:'Numéro Swish copié ! ✓',
-      toast_protected:'© Martin Björck — Images protégées',
-    }
-  };
-
-  let currentLang = 'sv';
-
-  function setLang(lang) {
-    currentLang = lang;
-    const t = i18n[lang];
-    // Uppdatera alla data-i18n element
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.dataset.i18n;
-      if (t[key] !== undefined) el.innerHTML = t[key];
-    });
-    // Uppdatera buy-knappar i galleriet
-    document.querySelectorAll('.buy-btn').forEach(btn => btn.textContent = t.buy_btn || 'Köp');
-    // Uppdatera html lang
-    document.documentElement.lang = lang;
-    // Uppdatera aktiv lang-knapp
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
-    });
-    // Uppdatera PayPal-knapp text
-    document.querySelectorAll('[data-i18n="paypal_btn"]').forEach(el => el.textContent = t.paypal_btn);
-  }
+  const SWISH_NUMBER  = '0708977190';
+  const CONTACT_EMAIL = 'martinbjk@gmail.com';
+  const PRICE_SEK     = '200 kr';
+  const PRICE_EUR     = '€20 EUR';
+  // ── Byt ut mot din PayPal.me-länk efter att du skapat den ──
+  // Se instruktioner nedan i kommentarerna
+  const PAYPAL_BASE   = 'https://paypal.me/DITTNAMN/20';
 
   /* ══════════════════════════════════════
      BILDER
@@ -555,6 +512,138 @@
     { src: "images/xsurf.jpg",         title: "Surfaren",   category: "natur" },
   ];
 
+  /* ══════════════════════════════════════
+     ÖVERSÄTTNINGAR
+  ══════════════════════════════════════ */
+  const i18n = {
+    sv: {
+      nav_gallery:'Galleri', nav_about:'Om mig', nav_contact:'Kontakt',
+      hero_eyebrow:'Fotografi &amp; konst — Sverige',
+      hero_tagline:'Bilder som stannar kvar',
+      stat_sweden:'Sverige', stat_intl:'Internationellt', stat_delivery:'Leverans',
+      gallery_tag:'Samling · fotografier',
+      gallery_title_html:'Mina <em>bästa</em> bilder',
+      readme_text:'Lägg till bilder i <code>images/</code>-mappen och uppdatera arrayen <code>MY_IMAGES</code> i scriptet. Ta bort denna ruta när du är klar.',
+      filter_all:'Alla', filter_nature:'Natur', filter_city:'Stad',
+      filter_portrait:'Porträtt', filter_travel:'Resor', filter_abstract:'Abstrakt',
+      load_more:'Visa fler bilder',
+      about_title_html:'Om <em>mig</em>',
+      about_p1:'Jag är Martin Björck, fotograf baserad i Sverige.',
+      about_p2:'Varje bild i galleriet är ett minne, en känsla eller en berättelse. Väljer du att äga en av dem tar du med dig ett stycke av den världen hem.',
+      about_p3:'Betalning sker enkelt via <strong>Swish</strong> (Sverige) eller <strong>PayPal</strong> (internationellt). Klicka på valfri bild — du får en fullupplöst fil inom 24 timmar.',
+      buy_btn:'Köp · 200 kr', lb_buy:'Köp denna bild',
+      pay_badge:'Säker betalning', pay_title:'Köp bild',
+      swish_desc:'Skicka 200 kr till numret nedan. Skriv bildens titel som meddelande.',
+      copy_hint:'Klicka för att kopiera', pay_or:'eller',
+      paypal_desc:'Betala säkert med PayPal. Skicka kvittot till mailadressen nedan.',
+      paypal_btn:'Betala med PayPal',
+      pay_note:'<strong>Efter betalning:</strong> Skicka ett mail till <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a> med bildens titel och betalningsbekräftelse — du får en fullupplöst fil inom 24 timmar.',
+      price_delivery_note:'fullupplöst fil via mail',
+      price_info:'Klicka på valfri bild → välj betalning → skicka bekräftelse till <strong>martinbjk@gmail.com</strong>',
+      toast_copied:'Swish-nummer kopierat! ✓',
+      toast_protected:'© Martin Björck — Bilderna är skyddade',
+    },
+    en: {
+      nav_gallery:'Gallery', nav_about:'About', nav_contact:'Contact',
+      hero_eyebrow:'Photography &amp; Art — Sweden',
+      hero_tagline:'Images that stay with you',
+      stat_sweden:'Sweden', stat_intl:'International', stat_delivery:'Delivery',
+      gallery_tag:'Collection · photographs',
+      gallery_title_html:'My <em>finest</em> images',
+      readme_text:'Add photos to the <code>images/</code> folder and update the <code>MY_IMAGES</code> array in the script. Remove this box when done.',
+      filter_all:'All', filter_nature:'Nature', filter_city:'City',
+      filter_portrait:'Portrait', filter_travel:'Travel', filter_abstract:'Abstract',
+      load_more:'Load more images',
+      about_title_html:'About <em>me</em>',
+      about_p1:'I am Martin Björck, a photographer based in Sweden.',
+      about_p2:'Every image in the gallery is a memory, a feeling, or a story. If you choose to own one, you take a piece of that world home with you.',
+      about_p3:'Payment via <strong>Swish</strong> (Sweden) or <strong>PayPal</strong> (international). Click any image — you will receive a full-resolution file within 24 hours.',
+      buy_btn:'Buy · €20', lb_buy:'Purchase this image',
+      pay_badge:'Secure payment', pay_title:'Purchase image',
+      swish_desc:'Send 200 SEK to the number below. Write the image title as message. (Sweden only)',
+      copy_hint:'Click to copy', pay_or:'or',
+      paypal_desc:'Pay securely with PayPal. Send your receipt to the email address below.',
+      paypal_btn:'Pay with PayPal',
+      pay_note:'<strong>After payment:</strong> Send an email to <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a> with the image title and payment confirmation — you will receive a full-resolution file within 24 hours.',
+      price_delivery_note:'full-res file by email',
+      price_info:'Click any image → choose payment → send confirmation to <strong>martinbjk@gmail.com</strong>',
+      toast_copied:'Number copied! ✓',
+      toast_protected:'© Martin Björck — Images are protected',
+    },
+    de: {
+      nav_gallery:'Galerie', nav_about:'Über mich', nav_contact:'Kontakt',
+      hero_eyebrow:'Fotografie &amp; Kunst — Schweden',
+      hero_tagline:'Bilder, die bleiben',
+      stat_sweden:'Schweden', stat_intl:'International', stat_delivery:'Lieferung',
+      gallery_tag:'Kollektion · Fotografien',
+      gallery_title_html:'Meine <em>besten</em> Bilder',
+      readme_text:'Füge Fotos zum Ordner <code>images/</code> hinzu und aktualisiere das Array <code>MY_IMAGES</code>. Entferne dieses Feld wenn fertig.',
+      filter_all:'Alle', filter_nature:'Natur', filter_city:'Stadt',
+      filter_portrait:'Porträt', filter_travel:'Reisen', filter_abstract:'Abstrakt',
+      load_more:'Mehr Bilder laden',
+      about_title_html:'Über <em>mich</em>',
+      about_p1:'Ich bin Martin Björck, Fotograf aus Schweden.',
+      about_p2:'Jedes Bild ist eine Erinnerung, ein Gefühl oder eine Geschichte.',
+      about_p3:'Zahlung per <strong>Swish</strong> (Schweden) oder <strong>PayPal</strong> (international). Klicken Sie auf ein Bild — Datei in voller Auflösung innerhalb 24 Stunden.',
+      buy_btn:'Kaufen · €20', lb_buy:'Dieses Bild kaufen',
+      pay_badge:'Sichere Zahlung', pay_title:'Bild kaufen',
+      swish_desc:'Senden Sie 200 SEK an die Nummer unten. (Nur Schweden)',
+      copy_hint:'Zum Kopieren klicken', pay_or:'oder',
+      paypal_desc:'Bezahlen Sie sicher mit PayPal. Senden Sie die Quittung per E-Mail.',
+      paypal_btn:'Mit PayPal bezahlen',
+      pay_note:'<strong>Nach der Zahlung:</strong> E-Mail an <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a> mit Bildtitel und Zahlungsbestätigung — hochauflösende Datei innerhalb 24 Stunden.',
+      price_delivery_note:'Hochauflösende Datei per E-Mail',
+      price_info:'Klicken Sie auf ein Bild → Zahlung wählen → Bestätigung senden an <strong>martinbjk@gmail.com</strong>',
+      toast_copied:'Nummer kopiert! ✓',
+      toast_protected:'© Martin Björck — Bilder sind geschützt',
+    },
+    fr: {
+      nav_gallery:'Galerie', nav_about:'À propos', nav_contact:'Contact',
+      hero_eyebrow:'Photographie &amp; Art — Suède',
+      hero_tagline:'Des images qui restent',
+      stat_sweden:'Suède', stat_intl:'International', stat_delivery:'Livraison',
+      gallery_tag:'Collection · photographies',
+      gallery_title_html:'Mes <em>meilleures</em> images',
+      readme_text:'Ajoutez des photos dans <code>images/</code> et mettez à jour <code>MY_IMAGES</code>. Supprimez cette boîte une fois terminé.',
+      filter_all:'Tout', filter_nature:'Nature', filter_city:'Ville',
+      filter_portrait:'Portrait', filter_travel:'Voyages', filter_abstract:'Abstrait',
+      load_more:'Charger plus',
+      about_title_html:'À propos de <em>moi</em>',
+      about_p1:'Je suis Martin Björck, photographe basé en Suède.',
+      about_p2:"Chaque image est un souvenir, une émotion ou une histoire.",
+      about_p3:'Paiement par <strong>Swish</strong> (Suède) ou <strong>PayPal</strong> (international). Cliquez sur une image — fichier haute résolution en 24 heures.',
+      buy_btn:'Acheter · €20', lb_buy:'Acheter cette image',
+      pay_badge:'Paiement sécurisé', pay_title:'Acheter une image',
+      swish_desc:"Envoyez 200 SEK au numéro ci-dessous. (Suède uniquement)",
+      copy_hint:'Cliquer pour copier', pay_or:'ou',
+      paypal_desc:'Payez en toute sécurité avec PayPal. Envoyez le reçu par e-mail.',
+      paypal_btn:'Payer avec PayPal',
+      pay_note:'<strong>Après paiement :</strong> E-mail à <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a> avec le titre et la confirmation — fichier haute résolution en 24 heures.',
+      price_delivery_note:'Fichier haute résolution par e-mail',
+      price_info:'Cliquez sur une image → choisissez le paiement → envoyez la confirmation à <strong>martinbjk@gmail.com</strong>',
+      toast_copied:'Numéro copié ! ✓',
+      toast_protected:'© Martin Björck — Images protégées',
+    }
+  };
+
+  let currentLang = 'sv';
+
+  function setLang(lang) {
+    currentLang = lang;
+    const t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('.buy-btn').forEach(btn => btn.textContent = t.buy_btn || 'Köp');
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const btnLang = btn.getAttribute('onclick').match(/setLang\('(\w+)'\)/)?.[1];
+      btn.classList.toggle('active', btnLang === lang);
+    });
+  }
+
+  /* ══ GALLERI ══ */
   const BATCH = 20;
   let shown = 0, activeFilter = 'alla', currentIndex = 0;
   const grid = document.getElementById('galleryGrid');
@@ -650,10 +739,8 @@
   /* ══ PAYMENT MODAL ══ */
   const payBg = document.getElementById('payBackdrop');
   function openPayment(title) {
-    document.getElementById('payImageTitle').textContent = `"${title}"`;
-    // Uppdatera PayPal-länken med bildtitel
-    const ppLink = PAYPAL_BASE + '?item_name=' + encodeURIComponent(title);
-    document.getElementById('paypalBtn').href = ppLink;
+    document.getElementById('payImageTitle').textContent = '"' + title + '"';
+    document.getElementById('paypalBtn').href = PAYPAL_BASE + '?item_name=' + encodeURIComponent(title);
     payBg.classList.add('open'); document.body.style.overflow = 'hidden';
   }
   function closePayment() { payBg.classList.remove('open'); document.body.style.overflow = ''; }
@@ -667,12 +754,10 @@
     else { showToast(num); }
   }
 
-  /* ══ BILDSKYDD ══ */
   document.addEventListener('contextmenu', e => { if (e.target.tagName === 'IMG') { e.preventDefault(); showToast(i18n[currentLang].toast_protected || '© Martin Björck'); } });
   document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
   document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && ['s','u','p'].includes(e.key.toLowerCase())) e.preventDefault(); });
 
-  /* ══ MOBIL NAV ══ */
   function toggleMobile() {
     const m = document.getElementById('mobileMenu'), b = document.getElementById('burger');
     m.classList.toggle('open'); b.classList.toggle('open');
@@ -684,7 +769,6 @@
     document.body.style.overflow = '';
   }
 
-  /* ══ FADE IN ══ */
   function observeFades() {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
@@ -698,7 +782,6 @@
     setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  /* ══ INIT ══ */
   document.getElementById('yr').textContent = new Date().getFullYear();
   renderBatch();
   observeFades();
