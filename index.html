@@ -24,66 +24,62 @@
     /* ══ NAV ══ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 90;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2rem;
+      display: flex; align-items: center;
+      padding: .85rem 2rem;
       background: rgba(7,18,28,0.95);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(79,195,247,.15);
-      gap: 1rem;
     }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; letter-spacing: .1em; color: var(--white); text-decoration: none; flex-shrink: 0; }
-    .nav-right { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400;
+      letter-spacing: .1em; color: var(--white); text-decoration: none;
+      margin-right: auto; /* pushes everything else to the right */
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; margin-right: 1.5rem; }
     .nav-links a { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .25s; font-weight: 400; }
     .nav-links a:hover { color: var(--accent); }
 
-    /* ── SPRÅKVÄLJARE — flagga med tooltip ── */
-    .lang-switcher { display: flex; gap: .3rem; align-items: center; flex-shrink: 0; }
+    /* ── SPRÅKVÄLJARE ── */
+    .lang-switcher { display: flex; gap: .3rem; align-items: center; }
     .lang-btn {
       font-family: 'Jost', sans-serif;
-      font-size: .75rem; font-weight: 600;
-      padding: .4rem .55rem;
+      font-size: .65rem; font-weight: 600;
+      padding: .38rem .55rem;
       border: 1.5px solid rgba(79,195,247,.3);
       background: transparent; color: var(--muted);
       cursor: pointer; border-radius: 4px; transition: all .2s;
       display: flex; align-items: center; gap: .28rem;
-      flex-shrink: 0; white-space: nowrap;
-      position: relative;
+      white-space: nowrap; position: relative;
     }
-    .lang-btn .flag { font-size: 1.05rem; line-height: 1; }
-    .lang-btn .lname {
-      font-size: .6rem; letter-spacing: .06em; text-transform: uppercase;
-    }
-    /* Tooltip som visas vid hover */
+    .lang-btn .ldot { display: none; }
+    .lang-btn .lcode { font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; }
+    .lang-flag { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; display: inline-flex; box-shadow: 0 1px 3px rgba(0,0,0,.3); flex-shrink: 0; }
+    .lang-flag svg { width: 100%; height: 100%; }
     .lang-btn::after {
       content: attr(data-lang-full);
       position: absolute; top: calc(100% + 6px); left: 50%;
       transform: translateX(-50%);
-      background: rgba(7,18,28,.96); color: var(--muted);
-      font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(7,18,28,.98); color: var(--muted);
+      font-size: .64rem; letter-spacing: .1em; text-transform: uppercase;
       padding: .3rem .7rem; border-radius: 3px;
-      border: 1px solid rgba(79,195,247,.2);
+      border: 1px solid rgba(79,195,247,.25);
       white-space: nowrap; pointer-events: none;
       opacity: 0; transition: opacity .2s; z-index: 200;
     }
     .lang-btn:hover::after { opacity: 1; }
     .lang-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,195,247,.08); }
     .lang-btn.active { background: var(--accent); border-color: var(--accent); color: var(--deep); font-weight: 700; }
-    /* Dölj textnamn alltid i nav — bara flagga — tooltip ger info */
-    .lang-btn .lname { display: none; }
 
-    .nav-burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; flex-shrink: 0; }
+    .nav-burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; margin-left: .8rem; }
     .nav-burger span { display: block; width: 26px; height: 1.5px; background: var(--muted); transition: all .3s; }
     .nav-burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .nav-burger.open span:nth-child(2) { opacity: 0; }
     .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-    @media(max-width:680px) {
+    /* Nav-länkarna gömmer sig under 700px — lang-knapparna alltid synliga */
+    @media(max-width:700px) {
       nav { padding: .85rem 1.2rem; }
       .nav-links { display: none; }
       .nav-burger { display: flex; }
-      .lang-btn .lname { display: none; }
-      .lang-btn { padding: .35rem .45rem; font-size: .65rem; }
-      .lang-switcher { gap: .2rem; }
     }
 
     /* ══ MOBILE MENU ══ */
@@ -92,9 +88,8 @@
     .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--white); text-decoration: none; transition: color .2s; }
     .mobile-menu a:hover { color: var(--accent); }
     .mobile-menu .lang-switcher { margin-top: 1.5rem; gap: .6rem; }
-    /* I mobilmenyn: visa flagga + namn */
     .mobile-menu .lang-btn { font-size: .82rem; padding: .65rem 1.2rem; }
-    .mobile-menu .lang-btn .lname { display: inline !important; font-size: .72rem; }
+    .mobile-menu .lang-btn .lcode { display: inline; font-size: .72rem; }
     .mobile-menu .lang-btn::after { display: none; }
 
     /* ══ HERO ══ */
@@ -269,14 +264,20 @@
     .about-text strong { color: var(--accent); font-weight: 500; }
 
     /* ══ FOOTER ══ */
-    footer { background: var(--deep); padding: 3rem 1.5rem 2.5rem; border-top: 1px solid rgba(79,195,247,.1); text-align: center; }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.6rem; color: var(--muted); margin-bottom: .5rem; }
-    .footer-nav { display: flex; justify-content: center; gap: 2.5rem; margin: 1.2rem 0; flex-wrap: wrap; }
-    .footer-nav a { font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--foam); text-decoration: none; padding: .5rem 0; transition: color .2s; font-weight: 400; }
+    footer {
+      background: var(--deep); padding: 3rem 1.5rem 2.5rem;
+      border-top: 1px solid rgba(79,195,247,.1);
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.8rem; color: var(--muted); }
+    .footer-nav { display: flex; justify-content: center; gap: 2.5rem; margin: .8rem 0; flex-wrap: wrap; }
+    .footer-nav a { font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--foam); text-decoration: none; padding: .4rem 0; transition: color .2s; font-weight: 400; }
     .footer-nav a:hover { color: var(--accent); }
-    footer p { font-size: .75rem; letter-spacing: .12em; color: var(--surface); margin-top: .5rem; }
-    footer a { color: var(--sky); text-decoration: none; }
-    footer a:hover { color: var(--accent); }
+    footer p { font-size: .78rem; letter-spacing: .1em; color: var(--sky); margin: 0; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { color: var(--accent2); }
+    .footer-copy { font-size: .58rem !important; opacity: .35; color: var(--surface) !important; margin-top: .5rem; }
 
     /* ══ UTILS ══ */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -295,27 +296,49 @@
     <a href="#om"      onclick="closeMobile()" data-i18n="nav_about">Om mig</a>
     <a href="#kontakt" onclick="closeMobile()" data-i18n="nav_contact">Kontakt</a>
     <div class="lang-switcher" style="margin-top:1.5rem">
-      <button class="lang-btn active" onclick="setLang('sv');closeMobile()" data-lang-full="Svenska"><span class="flag">🇸🇪</span><span class="lname">Svenska</span></button>
-      <button class="lang-btn" onclick="setLang('en');closeMobile()" data-lang-full="English"><span class="flag">🇬🇧</span><span class="lname">English</span></button>
-      <button class="lang-btn" onclick="setLang('de');closeMobile()" data-lang-full="Deutsch"><span class="flag">🇩🇪</span><span class="lname">Deutsch</span></button>
-      <button class="lang-btn" onclick="setLang('fr');closeMobile()" data-lang-full="Français"><span class="flag">🇫🇷</span><span class="lname">Français</span></button>
+      <button class="lang-btn active" onclick="setLang('sv');closeMobile()" data-lang-full="Svenska">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#006AA7"/><rect x="0" y="9" width="22" height="4" fill="#FECC02"/><rect x="7" y="0" width="4" height="22" fill="#FECC02"/></svg></span>
+        <span class="lcode">Svenska</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('en');closeMobile()" data-lang-full="English">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#012169"/><line x1="0" y1="0" x2="22" y2="22" stroke="white" stroke-width="3"/><line x1="22" y1="0" x2="0" y2="22" stroke="white" stroke-width="3"/><line x1="0" y1="0" x2="22" y2="22" stroke="#C8102E" stroke-width="1.5"/><line x1="22" y1="0" x2="0" y2="22" stroke="#C8102E" stroke-width="1.5"/><rect x="0" y="9" width="22" height="4" fill="white"/><rect x="9" y="0" width="4" height="22" fill="white"/><rect x="0" y="9.5" width="22" height="3" fill="#C8102E"/><rect x="9.5" y="0" width="3" height="22" fill="#C8102E"/></svg></span>
+        <span class="lcode">English</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('de');closeMobile()" data-lang-full="Deutsch">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="7.3" fill="#000"/><rect y="7.3" width="22" height="7.4" fill="#DD0000"/><rect y="14.7" width="22" height="7.3" fill="#FFCE00"/></svg></span>
+        <span class="lcode">Deutsch</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('fr');closeMobile()" data-lang-full="Français">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#ED2939"/><rect width="14.7" height="22" fill="#fff"/><rect width="7.3" height="22" fill="#002395"/></svg></span>
+        <span class="lcode">Français</span>
+      </button>
     </div>
   </div>
 
   <nav>
     <a class="nav-logo" href="#">Martin Björck</a>
-    <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#galleri" data-i18n="nav_gallery">Galleri</a></li>
-        <li><a href="#om"      data-i18n="nav_about">Om mig</a></li>
-        <li><a href="#kontakt" data-i18n="nav_contact">Kontakt</a></li>
-      </ul>
-      <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('sv')" data-lang-full="Svenska"><span class="flag">🇸🇪</span></button>
-        <button class="lang-btn" onclick="setLang('en')" data-lang-full="English"><span class="flag">🇬🇧</span></button>
-        <button class="lang-btn" onclick="setLang('de')" data-lang-full="Deutsch"><span class="flag">🇩🇪</span></button>
-        <button class="lang-btn" onclick="setLang('fr')" data-lang-full="Français"><span class="flag">🇫🇷</span></button>
-      </div>
+    <ul class="nav-links">
+      <li><a href="#galleri" data-i18n="nav_gallery">Galleri</a></li>
+      <li><a href="#om"      data-i18n="nav_about">Om mig</a></li>
+      <li><a href="#kontakt" data-i18n="nav_contact">Kontakt</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('sv')" data-lang-full="Svenska">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#006AA7"/><rect x="0" y="9" width="22" height="4" fill="#FECC02"/><rect x="7" y="0" width="4" height="22" fill="#FECC02"/></svg></span>
+        <span class="lcode">SV</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('en')" data-lang-full="English">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#012169"/><line x1="0" y1="0" x2="22" y2="22" stroke="white" stroke-width="3"/><line x1="22" y1="0" x2="0" y2="22" stroke="white" stroke-width="3"/><line x1="0" y1="0" x2="22" y2="22" stroke="#C8102E" stroke-width="1.5"/><line x1="22" y1="0" x2="0" y2="22" stroke="#C8102E" stroke-width="1.5"/><rect x="0" y="9" width="22" height="4" fill="white"/><rect x="9" y="0" width="4" height="22" fill="white"/><rect x="0" y="9.5" width="22" height="3" fill="#C8102E"/><rect x="9.5" y="0" width="3" height="22" fill="#C8102E"/></svg></span>
+        <span class="lcode">EN</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('de')" data-lang-full="Deutsch">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="7.3" fill="#000"/><rect y="7.3" width="22" height="7.4" fill="#DD0000"/><rect y="14.7" width="22" height="7.3" fill="#FFCE00"/></svg></span>
+        <span class="lcode">DE</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('fr')" data-lang-full="Français">
+        <span class="lang-flag"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><rect width="22" height="22" fill="#ED2939"/><rect width="14.7" height="22" fill="#fff"/><rect width="7.3" height="22" fill="#002395"/></svg></span>
+        <span class="lcode">FR</span>
+      </button>
     </div>
     <button class="nav-burger" id="burger" aria-label="Meny" onclick="toggleMobile()">
       <span></span><span></span><span></span>
@@ -407,6 +430,8 @@
       Klicka på valfri bild → välj betalning → skicka bekräftelse till <strong>martinbjk@gmail.com</strong>
     </p>
   </div>
+
+  <footer id="kontakt">
     <div class="footer-logo">Martin Björck</div>
     <nav class="footer-nav" aria-label="Footer">
       <a href="#galleri" data-i18n="nav_gallery">Galleri</a>
@@ -414,7 +439,7 @@
       <a href="mailto:martinbjk@gmail.com" data-i18n="nav_contact">Kontakt</a>
     </nav>
     <p>Swish &nbsp;·&nbsp; PayPal &nbsp;·&nbsp; <a href="mailto:martinbjk@gmail.com">martinbjk@gmail.com</a></p>
-    <p style="margin-top:1.2rem;font-size:.58rem;opacity:.4">&copy; <span id="yr"></span> Martin Björck.</p>
+    <p class="footer-copy">&copy; <span id="yr"></span> Martin Björck.</p>
   </footer>
 
   <div class="toast" id="toast"></div>
