@@ -22,7 +22,7 @@
     }
 
     /* NAV */
-    nav {
+    nav.main-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 90;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 2.5rem;
@@ -53,7 +53,7 @@
     .nav-burger.open span:nth-child(2) { opacity: 0; }
     .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
     @media(max-width:780px) {
-      nav { padding: 1rem 1.5rem; }
+      nav.main-nav { padding: 1rem 1.5rem; }
       .nav-center { display: none; }
       .nav-burger { display: flex; }
     }
@@ -228,7 +228,7 @@
   </div>
 
   <!-- NAV -->
-  <nav>
+  <nav class="main-nav">
     <a class="nav-logo" href="#">Martin Björck</a>
     <ul class="nav-center">
       <li><a href="#galleri" data-i18n="nav_gallery">Galleri</a></li>
